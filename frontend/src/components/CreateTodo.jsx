@@ -16,7 +16,7 @@ const CreateTodo = ({addTodo}) => {
       // Post the new todo to the server
       const response = await axios.post('api/v1/todo', newTodo);
       // Add the new todo to the list in the parent component
-      addTodo(response.data.todo);
+      // addTodo(response.data.todo);
       // Clear input fields after adding the todo
       setTitle("");
       setDescription("");

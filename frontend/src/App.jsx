@@ -10,7 +10,7 @@ function App() {
     axios
       .get("/api/v1/todos")
       .then((response) => {
-        console.log(response.data); 
+        // console.log(response.data); 
     
         setTodos(response.data.todos);
       })

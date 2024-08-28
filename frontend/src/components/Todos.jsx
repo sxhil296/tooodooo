@@ -4,7 +4,7 @@ const Todos = ({ todos }) => {
   return (
     <>
       {todos.map((todo) => (
-        <div key={todo.id} className="flex gap-4 mb-2">
+        <div key={todo._id} className="flex gap-4 mb-2">
           <div>
             <h2 className="text-xl font-medium">{todo.title}</h2>
             <h3 className="text-lg font-medium">{todo.description}</h3>
