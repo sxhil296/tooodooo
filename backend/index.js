@@ -1,9 +1,8 @@
 import "dotenv/config";
 import express from "express";
-// import  createTodo  from "./types.js";
-// import  updateTodo from './types.js'
-import schemas from "./types.js"; // Import the default export
-const { createTodo, updateTodo } = schemas; // Destructure to get the schemas
+import cors from "cors"
+import schemas from "./types.js"; 
+const { createTodo, updateTodo } = schemas;
 import { Todo } from "./db.js";
 
 
@@ -11,9 +10,12 @@ const PORT = process.env.PORT || 4000;
 
 const app = express();
 app.use(express.json());
+app.use(cors(
+  {origin: process.env.CORS_ORIGIN}
+))
 
 //CREATE TODO
-app.post("/todo", async (req, res) => {
+app.post("/api/v1/todo", async (req, res) => {
   const createPayLoad = req.body;
   const parsedPayLoad = createTodo.safeParse(createPayLoad);
   if (!parsedPayLoad.success) {
@@ -33,16 +35,16 @@ app.post("/todo", async (req, res) => {
 });
 
 //GET ALL TODOS
-app.get("/todos", async (req, res) => {
+app.get("/api/v1/todos", async (req, res) => {
   const todos = await Todo.find({});
-  console.log(todos);
+  // console.log(todos);
   res.json({
     todos,
   });
 });
 
 //MARK A TODO AS DONE
-app.put("/completed", async (req, res) => {
+app.put("/api/v1/completed", async (req, res) => {
   const updatePayload = req.body;
   const parsedPayLoad = updateTodo.safeParse(updatePayload);
   if (!parsedPayLoad.success) {
