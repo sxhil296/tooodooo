@@ -1,5 +1,5 @@
 {
-  "id": "c008c1ae-d71d-4eab-a3ae-8cb323c3cdac",
+  "id": "0b5d5130-00bd-42a2-921b-8813e0c7f0a8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -44,7 +44,7 @@
           "name": "completed",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": false
         },
         "userId": {
@@ -63,7 +63,17 @@
       "isRLSEnabled": false
     }
   },
-  "enums": {},
+  "enums": {
+    "public.priority": {
+      "name": "priority",
+      "schema": "public",
+      "values": [
+        "low",
+        "medium",
+        "high"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "roles": {},

@@ -1,4 +1,3 @@
-"use client";
 import Container from "@/components/general/container";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,27 +11,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import SubmitButton from "@/components/general/submitButton";
-import { SyntheticEvent, useState } from "react";
+
 import { createTodoAction } from "@/app/actions";
 
 export default function NewTodoPage() {
-  const [state, setState] = useState("ready");
-
-  async function handleOnSubmit(e: SyntheticEvent) {
-    if (state === "pending") {
-      e.preventDefault();
-      return;
-    }
-    setState("pending");
-  }
-
   return (
     <div className="w-full">
       <Container>
         <h3 className="text-2xl font-bold mb-6">Create Todo</h3>
         <Form
           action={createTodoAction}
-          onSubmit={handleOnSubmit}
           className="w-full max-w-xl flex flex-col gap-6"
         >
           <div className="flex flex-col gap-2">
@@ -44,6 +32,7 @@ export default function NewTodoPage() {
               id="title"
               name="title"
               placeholder="Title of your todo"
+              required
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -55,6 +44,7 @@ export default function NewTodoPage() {
               id="description"
               name="description"
               placeholder="Description of your todo"
+              required
             />
           </div>
           <div className="flex flex-col gap-2 items-start">
