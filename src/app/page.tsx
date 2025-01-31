@@ -2,11 +2,16 @@ import Container from "@/components/general/container";
 import { Button } from "@/components/ui/button";
 
 import Link from "next/link";
+import { db } from "@/db";
+import { sql } from "drizzle-orm";
 
-export default function Home() {
+export default async function Home() {
+  const results = await db.execute(sql`SELECT current_database()`);
+
   return (
     <main className="h-full flex justify-center items-center">
       <Container className="flex justify-center flex-col gap-6 items-center">
+        {JSON.stringify(results)}
         <h1 className="text-5xl font-bold ">tooodooo</h1>
         <p className="text-center text-lg">
           a simple todo app just to complete the challenge of making it under 2
