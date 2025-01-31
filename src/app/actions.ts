@@ -3,6 +3,8 @@
 import { db } from "@/db";
 import { Todos } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
+import { and, eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function createTodoAction(formData: FormData) {
@@ -27,8 +29,24 @@ export async function createTodoAction(formData: FormData) {
       id: Todos.id,
     });
 
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
   console.log(results);
   redirect(`/todos/${results[0].id}`);
+}
+
+export async function changePriorityAction(formData: FormData) {
+  const { userId, redirectToSignIn } = await auth();
+
+  if (!userId) return redirectToSignIn();
+  const todoId = formData.get("id") as string;
+  const priority = formData.get("priority") as "high" | "medium" | "low";
+
+  const results = await db
+    .update(Todos)
+    .set({
+      priority,
+    })
+    .where(and(eq(Todos.userId, userId), eq(Todos.id, parseInt(todoId))));
+
+  console.log("priority results", results);
+  revalidatePath(`/todos/${todoId}`, "page");
 }

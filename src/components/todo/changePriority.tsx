@@ -7,12 +7,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { PRIORITY_OPTIONS } from "@/data";
+import { Todos } from "@/db/schema";
 
 interface ChangePriorityProps {
-  action?: (formData: FormData) => Promise<void>;
+  action: (formData: FormData) => Promise<void>;
+  todo: typeof Todos.$inferSelect;
 }
 
-export default function ChangePriority({ action }: ChangePriorityProps) {
+export default function ChangePriority({ action, todo }: ChangePriorityProps) {
   return (
     <>
       <DropdownMenu>
@@ -25,9 +27,9 @@ export default function ChangePriority({ action }: ChangePriorityProps) {
         <DropdownMenuContent>
           {PRIORITY_OPTIONS.map((priority) => (
             <DropdownMenuItem key={priority.id}>
-              <form>
-                <input type="hidden" name="id" value={priority.id} />
-                <input type="hidden" name="status" value={priority.id} />
+              <form action={action}>
+                <input type="hidden" name="id" value={todo.id} />
+                <input type="hidden" name="priority" value={priority.name} />
                 <button className="capitalize"> {priority.name}</button>
               </form>
             </DropdownMenuItem>
