@@ -71,7 +71,7 @@ export async function toggleCompletedAction(formData: FormData) {
   if (!currentTodo) {
     throw new Error("Todo not found");
   }
-  let newCompletedStatus = !currentTodo[0].completed;
+  const newCompletedStatus = !currentTodo[0].completed;
   const results = await db
     .update(Todos)
     .set({

@@ -4,7 +4,7 @@
 
 - [x] scaffold basic ui
 - [x] add authentication (clerk)
-- [ ] add form actions
-- [ ] add database (xata postgreSql with drizzle orm)
-- [ ] add restrictions on data
+- [x] add form actions
+- [x] add database (xata postgreSql with drizzle orm)
+- [x] add restrictions on data
 - [ ] deploy on vercel
