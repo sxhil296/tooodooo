@@ -1,8 +1,8 @@
-'use client'
+"use client";
 import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import ChangePriority from "./changePriority";
-import { changePriorityAction } from "@/app/actions";
+import { changePriorityAction, deleteTodoAction } from "@/app/actions";
 import { Todos } from "@/db/schema";
 import MoreOptions from "./moreOptions";
 import Container from "../general/container";
@@ -14,9 +14,9 @@ interface TodoProps {
 
 export default function Todo({ todo }: TodoProps) {
   const [currentPriority, setCurrentPriority] = useOptimistic(
-    todo.priority, 
+    todo.priority,
     (priority, newPriority) => {
-        return newPriority as "low" | "medium" | "high";
+      return newPriority as "low" | "medium" | "high";
     }
   );
 
@@ -55,7 +55,7 @@ export default function Todo({ todo }: TodoProps) {
           </div>
           <div className="flex items-center gap-2">
             <ChangePriority action={handleOnPriorityUpdate} todo={todo} />
-            <MoreOptions />
+            <MoreOptions action={deleteTodoAction} todo={todo} />
           </div>
         </div>
 

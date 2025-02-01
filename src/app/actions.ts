@@ -50,3 +50,34 @@ export async function changePriorityAction(formData: FormData) {
   console.log("priority results", results);
   revalidatePath(`/todos/${todoId}`, "page");
 }
+
+export async function deleteTodoAction(formData: FormData) {
+  const { userId, redirectToSignIn } = await auth();
+  if (!userId) return redirectToSignIn();
+  const todoId = formData.get("id") as string;
+  const results = await db
+    .delete(Todos)
+    .where(and(eq(Todos.userId, userId), eq(Todos.id, parseInt(todoId))));
+  console.log("delete results", results);
+  redirect("/dashboard");
+}
+
+export async function toggleCompletedAction(formData: FormData) {
+  const { userId, redirectToSignIn } = await auth();
+  if (!userId) return redirectToSignIn();
+  const todoId = formData.get("id") as string;
+
+  const currentTodo = await db.select().from(Todos).where(and(eq(Todos.userId, userId), eq(Todos.id, parseInt(todoId)))).limit(1)
+  if (!currentTodo) {
+    throw new Error("Todo not found");
+  }
+  let newCompletedStatus = !currentTodo[0].completed;
+  const results = await db
+    .update(Todos)
+    .set({
+      completed: newCompletedStatus,
+    })
+    .where(and(eq(Todos.userId, userId), eq(Todos.id, parseInt(todoId))))
+  console.log("toggle results", results);
+  revalidatePath(`/todos/${todoId}`, "page");
+}

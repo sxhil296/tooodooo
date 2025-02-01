@@ -10,7 +10,7 @@ export default function Header() {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
             <p className="font-bold text-2xl">
-              <Link href="/">tooodooo</Link>
+              <Link href="/dashboard">tooodooo</Link>
             </p>
           </div>
           <div className="flex justify-center items-center gap-4">

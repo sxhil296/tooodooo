@@ -17,8 +17,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Todos } from "@/db/schema";
 
-export default function MoreOptions() {
+interface MoreOptionsProps {
+  action: (formData: FormData) => Promise<void>;
+  todo: typeof Todos.$inferSelect;
+}
+
+export default function MoreOptions({ action, todo }: MoreOptionsProps) {
   return (
     <>
       <Dialog>
@@ -56,7 +62,7 @@ export default function MoreOptions() {
             <DialogTitle>Are you absolutely sure?</DialogTitle>
             <DialogDescription>
               This action cannot be undone. This will permanently delete your
-              invoice and remove the data from this account.
+              todo and remove the data from this account.
             </DialogDescription>
             <DialogFooter>
               <DialogClose asChild>
@@ -64,8 +70,8 @@ export default function MoreOptions() {
                   Cancel
                 </Button>
               </DialogClose>
-              <form>
-                <input type="hidden" name="id" />
+              <form action={action}>
+                <input type="hidden" name="id" value={todo?.id} />
 
                 <Button variant={"destructive"}>Delete Todo</Button>
               </form>

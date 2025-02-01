@@ -1,7 +1,6 @@
 import Container from "@/components/general/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
@@ -16,8 +15,9 @@ import { Todos } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Square, SquareCheck } from "lucide-react";
 import Link from "next/link";
+import { toggleCompletedAction } from "../actions";
 
 export default async function Dashboard() {
   const { userId } = await auth();
@@ -50,7 +50,9 @@ export default async function Dashboard() {
             </TableHeader>
             <TableBody>
               {todos.map((todo) => (
-                <TableRow>
+                <TableRow
+                  key={todo?.id}
+                >
                   <TableCell className=" p-0 text-left">
                     <Link
                       href={`/todos/${todo?.id}`}
@@ -82,9 +84,18 @@ export default async function Dashboard() {
                     </Link>
                   </TableCell>
                   <TableCell className="text-right p-0">
-                    <Link href={`/todos/${todo?.id}`} className="block p-4">
-                      <Checkbox checked={todo?.completed === true} />
-                    </Link>
+                    <form className="block p-4" action={toggleCompletedAction}>
+                      <input type="hidden" name="id" value={todo?.id} />
+
+                   
+                      <Button variant={"ghost"} title="Toggle Completed">
+                        {todo?.completed ? (
+                          <SquareCheck className="w-6 h-auto" />
+                        ) : (
+                          <Square className="w-6 h-auto" />
+                        )}
+                      </Button>
+                    </form>
                   </TableCell>
                 </TableRow>
               ))}
