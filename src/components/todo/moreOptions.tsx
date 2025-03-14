@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Edit, Ellipsis, Trash } from "lucide-react";
+import { Edit, Ellipsis,  Trash } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Todos } from "@/db/schema";
+import Link from "next/link";
 
 interface MoreOptionsProps {
   action: (formData: FormData) => Promise<void>;
@@ -37,12 +38,18 @@ export default function MoreOptions({ action, todo }: MoreOptionsProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
+            <Link href={`/todos/edit/${todo?.id}`}>
               <Button
                 className="flex items-center justify-start gap-2 text-xs w-full"
                 variant={"ghost"}
+            
               >
-                <Edit className="h-auto w-4" /> Edit
+               
+             
+                  <Edit className="h-auto w-4" /> Edit
+               
               </Button>
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <DialogTrigger asChild>

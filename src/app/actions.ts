@@ -81,3 +81,29 @@ export async function toggleCompletedAction(formData: FormData) {
   console.log("toggle results", results);
   revalidatePath(`/todos/${todoId}`, "page");
 }
+
+
+export async function editTodoAction(formData:FormData){
+  const { userId, redirectToSignIn } = await auth();
+  if (!userId) return redirectToSignIn();
+  const todoId = formData.get("id") as string;
+  const currentTodo = await db.select().from(Todos).where(and(eq(Todos.userId, userId), eq(Todos.id, parseInt(todoId)))).limit(1)
+  if (!currentTodo) {
+    throw new Error("Todo not found");
+  }
+  const newTitle = formData.get("title") as string || currentTodo[0].title;
+  const newDescription = formData.get("description") as string || currentTodo[0].description;
+  const newPriority = formData.get("priority") as "high" | "medium" | "low" || currentTodo[0].priority;
+
+  const results = await db
+    .update(Todos)
+    .set({
+      title: newTitle,
+      description: newDescription,
+      priority: newPriority,
+    })
+    .where(and(eq(Todos.userId, userId), eq(Todos.id, parseInt(todoId))));
+
+  console.log("edit results", results);
+  redirect(`/dashboard`);
+}
